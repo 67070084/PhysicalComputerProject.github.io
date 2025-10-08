@@ -142,7 +142,7 @@
     <table>
       <tr><th>รหัสนักศึกษา</th><th>ชื่อ - สกุล</th><th>หน้าที่</th></tr>
       <tr>
-        <td>67070036👑</td>
+        <td>67070036</td>
         <td>นายชัชพิสิฐ บุนนาค</td>
         <td>ทำโค้ดส่วน Arduino / Poster</td>
       </tr>
@@ -161,6 +161,7 @@
 
   <section>
     <h2>6. Source Code ตัวอย่าง</h2>
+
     <p>Arduino:</p>
     <pre>
 // Arduino OIIA Spinner
@@ -202,7 +203,7 @@ void loop() {
                    ",\"stop\":" + String(digitalRead(pinStop)) +
                    ",\"speed\":" + String(digitalRead(pinSpeed)) +
                    ",\"reset\":" + String(digitalRead(pinReset)) + "}");
-    }else{
+    } else {
       client.println("HTTP/1.1 200 OK");
       client.println("Content-Type: text/html");
       client.println();
@@ -220,12 +221,12 @@ void loop() {
 #define WEBPAGE_H
 
 const char INDEX_HTML[] = R"rawliteral(
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>OIIA Spinner</title>
-    <style>
+&lt;!DOCTYPE html&gt;
+&lt;html lang="en"&gt;
+&lt;head&gt;
+    &lt;meta charset="UTF-8"&gt;
+    &lt;title&gt;OIIA Spinner&lt;/title&gt;
+    &lt;style&gt;
         /* Reset */
         * { box-sizing: border-box; margin: 0; padding: 0; }
 
@@ -240,11 +241,7 @@ const char INDEX_HTML[] = R"rawliteral(
             padding: 20px;
         }
 
-        h1 {
-            margin-bottom: 20px;
-            color: #333;
-            text-shadow: 1px 1px 2px rgba(0,0,0,0.2);
-        }
+        h1 { margin-bottom: 20px; color: #333; text-shadow: 1px 1px 2px rgba(0,0,0,0.2); }
 
         .card {
             background: rgba(255,255,255,0.9);
@@ -286,102 +283,18 @@ const char INDEX_HTML[] = R"rawliteral(
         .btn-speed { background-color: #ff9800; color: white; }
         .btn-reset { background-color: #2196F3; color: white; }
 
-        .btn:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 4px 6px rgba(0,0,0,0.2);
-        }
-    </style>
-</head>
-<body>
-    <h1>OIIA Spinner</h1>
-    <div class="card">
-        <video id="catGif" loop muted playsinline>
-            <source src="https://67070084.github.io/Physic-computer-Project/oia-uia-ezgif.com-gif-to-mp4-converter.mp4" type="video/mp4">
-        </video>
-        <div id="timer">00:00:00</div>
-        <div id="status">Cat stopped</div>
-        <div>
-            <button class="btn btn-run" onclick="runCat()">Run</button>
-            <button class="btn btn-stop" onclick="stopCat()">Stop</button>
-            <button class="btn btn-speed" onclick="speedUp()">Speed Up</button>
-            <button class="btn btn-reset" onclick="resetCat()">Reset</button>
-        </div>
-    </div>
-
-    <script>
-        let running = false;
-        let seconds = 0;
-        let timerInterval;
-        let speedLevel = 1;
-        const catGif = document.getElementById("catGif");
-
-        function updateTimer() {
-            seconds++;
-            let hrs = String(Math.floor(seconds / 3600)).padStart(2,'0');
-            let mins = String(Math.floor((seconds % 3600) / 60)).padStart(2,'0');
-            let secs = String(seconds % 60).padStart(2,'0');
-            document.getElementById("timer").innerText = `${hrs}:${mins}:${secs}`;
-        }
-
-        function runCat() {
-            if (!running) {
-                running = true;
-                document.getElementById("status").innerText = "Cat running";
-                catGif.play().catch(err => console.log("Video play blocked:", err));
-                timerInterval = setInterval(updateTimer, 1000);
-            }
-        }
-
-        function stopCat() {
-            if (running) {
-                running = false;
-                document.getElementById("status").innerText = "Cat stopped";
-                catGif.pause();
-                clearInterval(timerInterval);
-            }
-        }
-
-        function speedUp() {
-            if (running) {
-                speedLevel++;
-                if (speedLevel > 3) speedLevel = 1;
-                catGif.playbackRate = speedLevel;
-                document.getElementById("status").innerText = "Speed x" + speedLevel;
-            }
-        }
-
-        function resetCat() {
-            running = false;
-            clearInterval(timerInterval);
-            seconds = 0;
-            document.getElementById("timer").innerText = "00:00:00";
-            document.getElementById("status").innerText = "Cat reset";
-            catGif.pause();
-            catGif.currentTime = 0;
-            speedLevel = 1;
-            catGif.playbackRate = 1;
-        }
-
-        // Polling Arduino ปุ่มทุก 0.5 วินาที
-        setInterval(() => {
-            fetch("/status")
-            .then(response => response.json())
-            .then(data => {
-                if (data.run) runCat();
-                if (data.stop) stopCat();
-                if (data.speed) speedUp();
-                if (data.reset) resetCat();
-            })
-            .catch(err => console.log("Fetch error:", err));
-        }, 500);
-    </script>
-</body>
-</html>
+        .btn:hover { transform: translateY(-2px); box-shadow: 0 4px 6px rgba(0,0,0,0.2); }
+    &lt;/style&gt;
+&lt;/head&gt;
+&lt;body&gt;
+    &lt;!-- HTML โค้ดของหน้าเว็บ --&gt;
+&lt;/body&gt;
+&lt;/html&gt;
 )rawliteral";
 
 #endif
-
     </pre>
+
   </section>
 
   <footer>
