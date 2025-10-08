@@ -31,6 +31,7 @@
       color: #0078D7;
       border-bottom: 2px solid #0078D7;
       padding-bottom: 5px;
+      margin-top: 0;
     }
     ul {
       list-style: disc;
@@ -52,6 +53,13 @@
     th {
       background-color: #e9ecef;
     }
+    pre {
+      background-color: #f0f0f0;
+      padding: 15px;
+      overflow-x: auto;
+      border-radius: 8px;
+      border: 1px solid #ddd;
+    }
     footer {
       text-align: center;
       padding: 20px;
@@ -68,70 +76,68 @@
   </header>
 
   <section>
+    <h2>Abstract / บทคัดย่อ</h2>
+    <p>
+      โครงงาน OIIA Spinner พัฒนาระบบควบคุมการหมุนของแมว (ตัวอย่างวิดีโอ) ผ่าน Wi-Fi
+      โดยใช้ Arduino UNO R4 WiFi เป็นตัวควบคุมหลัก ผู้ใช้สามารถควบคุมผ่านหน้าเว็บและปุ่มจริง
+      บนบอร์ด ระบบส่งข้อมูลแบบ JSON เพื่อซิงค์สถานะระหว่างเว็บและฮาร์ดแวร์
+      โครงงานนี้มุ่งเน้นการเรียนรู้การทำ Web Server บนไมโครคอนโทรลเลอร์และการเชื่อมต่อ
+      ระหว่างฮาร์ดแวร์กับอินเทอร์เฟซบนเว็บ
+    </p>
+  </section>
+
+  <section>
     <h2>1. ชื่อโปรเจกต์</h2>
     <p><strong>OIIA Spinner</strong></p>
   </section>
 
   <section>
     <h2>2. ทำอะไรมา</h2>
-    <p><strong>1. ฝั่ง Arduino:</strong></p>
+    <p><strong>ฝั่ง Arduino:</strong></p>
     <ul>
-      <li>ใช้บอร์ด Arduino ที่มี WiFi (เช่น Uno R4 WiFi)</li>
-      <li>เขียนโค้ดเชื่อมต่อ WiFi ด้วยไลบรารี <code>WiFiS3.h</code></li>
+      <li>ใช้บอร์ด Arduino UNO R4 WiFi</li>
+      <li>เชื่อมต่อ Wi-Fi ด้วยไลบรารี <code>WiFiS3.h</code></li>
       <li>สร้าง Web Server บนพอร์ต 80</li>
-      <li>เขียนระบบตอบสนองคำสั่ง <code>/status</code> เพื่อส่งสถานะปุ่มจริง 4 ปุ่ม (Run, Stop, Speed, Reset) กลับไปในรูปแบบ JSON</li>
-      <li>ส่งหน้าเว็บ HTML ให้ผู้ใช้เมื่อมีการเข้าผ่าน IP ของบอร์ด</li>
+      <li>ตอบสนองคำสั่ง <code>/status</code> ส่งสถานะปุ่ม 4 ปุ่ม (Run, Stop, Speed, Reset) เป็น JSON</li>
+      <li>ส่งหน้าเว็บ HTML ให้ผู้ใช้เมื่อเข้าผ่าน IP ของบอร์ด</li>
     </ul>
 
-    <p><strong>2. ฝั่งเว็บ (หน้า HTML):</strong></p>
+    <p><strong>ฝั่งเว็บ (HTML + JavaScript):</strong></p>
     <ul>
-      <li>เขียนในไฟล์ <code>webpage.h</code> โดยเก็บ HTML, CSS, และ JavaScript ไว้ในตัวแปร <code>INDEX_HTML</code></li>
-      <li>หน้าเว็บมีวิดีโอแมวหมุน พร้อมตัวจับเวลาและปุ่มควบคุม 4 ปุ่ม</li>
-      <li>ใช้ JavaScript สั่งเล่น/หยุดวิดีโอ และเร่งความเร็ว</li>
-      <li>มีฟังก์ชัน <code>fetch("/status")</code> เรียกดูสถานะปุ่มจริงจาก Arduino ทุก 0.5 วินาที เพื่อให้ปุ่มจริงและปุ่มบนเว็บทำงานร่วมกันได้</li>
+      <li>เก็บ HTML, CSS, JavaScript ในตัวแปร <code>INDEX_HTML</code> (ไฟล์ <code>webpage.h</code>)</li>
+      <li>แสดงวิดีโอแมวหมุน พร้อมตัวจับเวลาและปุ่มควบคุม 4 ปุ่ม</li>
+      <li>ใช้ JavaScript สั่งเล่น/หยุด/ปรับความเร็วของวิดีโอ</li>
+      <li>เรียก <code>fetch("/status")</code> ทุก 0.5 วินาที เพื่อตรวจสอบปุ่มจริงและซิงค์กับเว็บ</li>
     </ul>
   </section>
 
   <section>
     <h2>3. อุปสรรคที่พบ และวิธีแก้ไข</h2>
     <ul>
-      <li><strong>ปัญหา:</strong> WiFi ต่อไม่ติด / เว็บเข้าไม่ได้<br>
-          <strong>แก้ไข:</strong> ตรวจสอบ SSID และรหัสผ่าน รวมถึงรอจนสถานะ <code>WL_CONNECTED</code> จริงก่อนเริ่มเซิร์ฟเวอร์</li>
-
-      <li><strong>ปัญหา:</strong> หน้าเว็บโหลดไม่ขึ้นหรือว่างเปล่า<br>
-          <strong>แก้ไข:</strong> เพิ่มการส่ง header HTTP ครบ (<code>HTTP/1.1 200 OK, Content-Type</code>)</li>
-
-      <li><strong>ปัญหา:</strong> กดปุ่มแล้วเว็บไม่ตอบสนอง<br>
-          <strong>แก้ไข:</strong> พบว่า fetch ไม่ได้รับ JSON เพราะ Arduino ตอบไม่ครบ ต้องเช็กว่า <code>client.flush()</code> และ <code>client.stop()</code> อยู่ตำแหน่งถูก</li>
-
-      <li><strong>ปัญหา:</strong> ปุ่มกดไม่ตอบสนอง<br>
-          <strong>แก้ไข:</strong> เพิ่ม <code>pinMode()</code> ของทุกปุ่มให้ถูกต้อง และตรวจสอบการ debounce</li>
-
-      <li><strong>ปัญหา:</strong> ความเร็วการตอบสนองช้า<br>
-          <strong>แก้ไข:</strong> ลด <code>delay</code> และเพิ่มการตรวจสอบสถานะภายใน loop</li>
-
-      <li><strong>ปัญหา:</strong> ควบคุม GIF ไม่ได้<br>
-          <strong>แก้ไข:</strong> เปลี่ยนจาก GIF เป็นวิดีโอแทน</li>
-
-      <li><strong>ปัญหา:</strong> วิดีโอใหญ่เกินอัปโหลดขึ้นบอร์ดไม่ได้<br>
-          <strong>แก้ไข:</strong> อัปโหลดวิดีโอขึ้น GitHub แล้วใช้ URL ดึงมาแสดงบนหน้าเว็บ</li>
+      <li>WiFi ต่อไม่ติด / เว็บเข้าไม่ได้ → ตรวจสอบ SSID, Password และรอจน <code>WL_CONNECTED</code> ก่อนเริ่ม server</li>
+      <li>หน้าเว็บโหลดไม่ขึ้น → เพิ่ม header HTTP ครบ <code>HTTP/1.1 200 OK, Content-Type</code></li>
+      <li>กดปุ่มแล้วเว็บไม่ตอบสนอง → ตรวจสอบ <code>client.flush()</code> และ <code>client.stop()</code></li>
+      <li>ปุ่มกดไม่ตอบสนอง → ตรวจสอบ <code>pinMode()</code> ของทุกปุ่ม และ debounce</li>
+      <li>ความเร็วการตอบสนองช้า → ลด delay และเพิ่มตรวจสอบสถานะภายใน loop</li>
+      <li>ควบคุม GIF ไม่ได้ → เปลี่ยนจาก GIF เป็นวิดีโอ</li>
+      <li>วิดีโอใหญ่เกินอัปโหลดบอร์ด → อัปโหลดวิดีโอบน GitHub แล้วใช้ URL แทน</li>
     </ul>
   </section>
 
   <section>
     <h2>4. ผลลัพธ์ที่ได้ตอนนี้</h2>
     <ul>
-      <li>✅ สามารถควบคุมการหมุนของแมวที่น่ารักของเราด้วยทั้งปุ่มบนบอร์ดและปุ่มบนหน้าเว็บ</li>
-      <li>✅ ปุ่มจริงบนบอร์ดสามารถสั่งงานได้เหมือนกับปุ่มบนเว็บ</li>
-      <li>✅ มีการอัปเดตสถานะระหว่าง Arduino และเว็บแบบเรียลไทม์ผ่าน WiFi</li>
-      <li>✅ มีระบบรีเซ็ตและปรับความเร็ว</li>
+      <li>✅ ควบคุมการหมุนของแมวผ่านปุ่มบนบอร์ดและหน้าเว็บได้</li>
+      <li>✅ ปุ่มจริงบนบอร์ดทำงานเหมือนปุ่มบนเว็บ</li>
+      <li>✅ ซิงค์สถานะเรียลไทม์ระหว่าง Arduino และเว็บ</li>
+      <li>✅ ระบบรีเซ็ตและปรับความเร็วได้</li>
     </ul>
   </section>
 
   <section>
-    <h2>5. ยังทำอะไรไม่ได้บ้าง</h2>
+    <h2>5. สิ่งที่ยังทำไม่ได้</h2>
     <ul>
-      <li>ยังไม่สามารถเชื่อมต่อกับเครือข่ายที่มีการเข้ารหัสซับซ้อน เช่น WiFi_UFO ของมหาวิทยาลัย</li>
+      <li>เชื่อมต่อกับเครือข่ายที่มีการเข้ารหัสซับซ้อน เช่น WiFi_UFO ของมหาวิทยาลัย</li>
     </ul>
   </section>
 
@@ -139,10 +145,66 @@
     <h2>6. บทบาทของสมาชิกในโครงงาน</h2>
     <table>
       <tr><th>รหัสนักศึกษา</th><th>ชื่อ - สกุล</th><th>หน้าที่</th></tr>
-      <tr><td>67070036</td><td>นายชัชพิสิฐ บุนนาค</td><td>พัฒนาโค้ด Arduino และระบบเชื่อมต่อ Wi-Fi</td></tr>
-      <tr><td>67070084</td><td>นายธีรัตม์ สถาพรวณิชย์</td><td>ออกแบบหน้าเว็บและเชื่อมต่อกับ Web Server</td></tr>
-      <tr><td>67070128</td><td>นายภาคภูมิ นพเก้า</td><td>ทดสอบระบบและแก้ไขปัญหาระหว่างการพัฒนา</td></tr>
+      <tr><td>67070036</td><td>นายชัชพิสิฐ บุนนาค</td><td>พัฒนาโค้ด Arduino และระบบ Wi-Fi</td></tr>
+      <tr><td>67070084</td><td>นายธีรัตม์ สถาพรวณิชย์</td><td>ออกแบบหน้าเว็บและเชื่อมต่อ Web Server</td></tr>
+      <tr><td>67070128</td><td>นายภาคภูมิ นพเก้า</td><td>ทดสอบระบบและแก้ไขปัญหาระหว่างพัฒนา</td></tr>
     </table>
+  </section>
+
+  <section>
+    <h2>7. Source Code ตัวอย่าง</h2>
+    <p>Arduino + Webpage.h ตัวอย่าง:</p>
+    <pre>
+// Arduino (OIIA Spinner)
+#include &lt;WiFiS3.h&gt;
+#include "webpage.h"
+
+char ssid[] = "Muka_WiFi";
+char pass[] = "13042505A";
+WiFiServer server(80);
+
+const int pinReset = 4;
+const int pinSpeed = 5;
+const int pinStop  = 6;
+const int pinRun   = 7;
+
+void setup() {
+  Serial.begin(9600);
+  pinMode(pinReset, INPUT);
+  pinMode(pinSpeed, INPUT);
+  pinMode(pinStop, INPUT);
+  pinMode(pinRun, INPUT);
+
+  WiFi.begin(ssid, pass);
+  while(WiFi.status() != WL_CONNECTED){ delay(1000); }
+
+  server.begin();
+}
+
+void loop() {
+  WiFiClient client = server.available();
+  if(client){
+    String req = client.readStringUntil('\\r');
+    client.flush();
+    if(req.indexOf("GET /status") >= 0){
+      client.println("HTTP/1.1 200 OK");
+      client.println("Content-Type: application/json");
+      client.println();
+      client.print("{\"run\":" + String(digitalRead(pinRun)) +
+                   ",\"stop\":" + String(digitalRead(pinStop)) +
+                   ",\"speed\":" + String(digitalRead(pinSpeed)) +
+                   ",\"reset\":" + String(digitalRead(pinReset)) + "}");
+    }else{
+      client.println("HTTP/1.1 200 OK");
+      client.println("Content-Type: text/html");
+      client.println();
+      client.println(INDEX_HTML);
+    }
+    client.stop();
+  }
+  delay(500);
+}
+    </pre>
   </section>
 
   <footer>
