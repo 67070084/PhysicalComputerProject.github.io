@@ -78,21 +78,17 @@
   <section>
     <h2>Abstract / บทคัดย่อ</h2>
     <p>
-      โครงงาน OIIA Spinner พัฒนาระบบควบคุมการหมุนของแมว (ตัวอย่างวิดีโอ) ผ่าน Wi-Fi
-      โดยใช้ Arduino UNO R4 WiFi เป็นตัวควบคุมหลัก ผู้ใช้สามารถควบคุมผ่านหน้าเว็บและปุ่มจริง
-      บนบอร์ด ระบบส่งข้อมูลแบบ JSON เพื่อซิงค์สถานะระหว่างเว็บและฮาร์ดแวร์
-      โครงงานนี้มุ่งเน้นการเรียนรู้การทำ Web Server บนไมโครคอนโทรลเลอร์และการเชื่อมต่อ
-      ระหว่างฮาร์ดแวร์กับอินเทอร์เฟซบนเว็บ
+      OIIA Spinner Project พัฒนาระบบควบคุมการหมุนของแมว (ตัวอย่างวิดีโอที่เลือก) 
+      ผ่าน Wi-Fi โดยใช้ Arduino UNO R4 WiFi เป็นตัวควบคุมหลัก 
+      ผู้ใช้สามารถควบคุมผ่านหน้าเว็บและปุ่มจริงบนบอร์ด ระบบส่งข้อมูลแบบ JSON 
+      เพื่อซิงค์สถานะระหว่างเว็บและฮาร์ดแวร์ 
+      โครงงานนี้มุ่งเน้นการเรียนรู้การทำ Web Server บนไมโครคอนโทรลเลอร์ 
+      และการเชื่อมต่อระหว่างฮาร์ดแวร์กับอินเทอร์เฟซบนเว็บ
     </p>
   </section>
 
   <section>
-    <h2>1. ชื่อโปรเจกต์</h2>
-    <p><strong>OIIA Spinner</strong></p>
-  </section>
-
-  <section>
-    <h2>2. ทำอะไรมา</h2>
+    <h2>1. ทำอะไรมา</h2>
     <p><strong>ฝั่ง Arduino:</strong></p>
     <ul>
       <li>ใช้บอร์ด Arduino UNO R4 WiFi</li>
@@ -112,7 +108,7 @@
   </section>
 
   <section>
-    <h2>3. อุปสรรคที่พบ และวิธีแก้ไข</h2>
+    <h2>2. อุปสรรคที่พบ และวิธีแก้ไข</h2>
     <ul>
       <li>WiFi ต่อไม่ติด / เว็บเข้าไม่ได้ → ตรวจสอบ SSID, Password และรอจน <code>WL_CONNECTED</code> ก่อนเริ่ม server</li>
       <li>หน้าเว็บโหลดไม่ขึ้น → เพิ่ม header HTTP ครบ <code>HTTP/1.1 200 OK, Content-Type</code></li>
@@ -125,7 +121,7 @@
   </section>
 
   <section>
-    <h2>4. ผลลัพธ์ที่ได้ตอนนี้</h2>
+    <h2>3. ผลลัพธ์ที่ได้ตอนนี้</h2>
     <ul>
       <li>✅ ควบคุมการหมุนของแมวผ่านปุ่มบนบอร์ดและหน้าเว็บได้</li>
       <li>✅ ปุ่มจริงบนบอร์ดทำงานเหมือนปุ่มบนเว็บ</li>
@@ -135,14 +131,14 @@
   </section>
 
   <section>
-    <h2>5. สิ่งที่ยังทำไม่ได้</h2>
+    <h2>4. สิ่งที่ยังทำไม่ได้</h2>
     <ul>
       <li>เชื่อมต่อกับเครือข่ายที่มีการเข้ารหัสซับซ้อน เช่น WiFi_UFO ของมหาวิทยาลัย</li>
     </ul>
   </section>
 
   <section>
-    <h2>6. บทบาทของสมาชิกในโครงงาน</h2>
+    <h2>5. บทบาทของสมาชิกในโครงงาน</h2>
     <table>
       <tr><th>รหัสนักศึกษา</th><th>ชื่อ - สกุล</th><th>หน้าที่</th></tr>
       <tr>
@@ -164,10 +160,10 @@
   </section>
 
   <section>
-    <h2>7. Source Code ตัวอย่าง</h2>
-    <p>Arduino + Webpage.h ตัวอย่าง:</p>
+    <h2>6. Source Code ตัวอย่าง</h2>
+    <p>Arduino:</p>
     <pre>
-// Arduino (OIIA Spinner)
+// Arduino OIIA Spinner
 #include &lt;WiFiS3.h&gt;
 #include "webpage.h"
 
@@ -216,6 +212,175 @@ void loop() {
   }
   delay(500);
 }
+    </pre>
+
+    <p>Webpage.h:</p>
+    <pre>
+#ifndef WEBPAGE_H
+#define WEBPAGE_H
+
+const char INDEX_HTML[] = R"rawliteral(
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>OIIA Spinner</title>
+    <style>
+        /* Reset */
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+
+        body {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: flex-start;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(to right, #fbc2eb, #a6c1ee);
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        h1 {
+            margin-bottom: 20px;
+            color: #333;
+            text-shadow: 1px 1px 2px rgba(0,0,0,0.2);
+        }
+
+        .card {
+            background: rgba(255,255,255,0.9);
+            border-radius: 15px;
+            padding: 20px;
+            box-shadow: 0 8px 16px rgba(0,0,0,0.2);
+            text-align: center;
+            width: 280px;
+        }
+
+        video {
+            width: 100%;
+            height: auto;
+            border-radius: 10px;
+            margin-bottom: 15px;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+        }
+
+        #timer, #status {
+            font-size: 18px;
+            margin: 10px 0;
+            color: #555;
+        }
+
+        .btn {
+            display: inline-block;
+            padding: 10px 20px;
+            margin: 5px;
+            font-size: 16px;
+            font-weight: bold;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+
+        .btn-run { background-color: #4CAF50; color: white; }
+        .btn-stop { background-color: #f44336; color: white; }
+        .btn-speed { background-color: #ff9800; color: white; }
+        .btn-reset { background-color: #2196F3; color: white; }
+
+        .btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 6px rgba(0,0,0,0.2);
+        }
+    </style>
+</head>
+<body>
+    <h1>OIIA Spinner</h1>
+    <div class="card">
+        <video id="catGif" loop muted playsinline>
+            <source src="https://67070084.github.io/Physic-computer-Project/oia-uia-ezgif.com-gif-to-mp4-converter.mp4" type="video/mp4">
+        </video>
+        <div id="timer">00:00:00</div>
+        <div id="status">Cat stopped</div>
+        <div>
+            <button class="btn btn-run" onclick="runCat()">Run</button>
+            <button class="btn btn-stop" onclick="stopCat()">Stop</button>
+            <button class="btn btn-speed" onclick="speedUp()">Speed Up</button>
+            <button class="btn btn-reset" onclick="resetCat()">Reset</button>
+        </div>
+    </div>
+
+    <script>
+        let running = false;
+        let seconds = 0;
+        let timerInterval;
+        let speedLevel = 1;
+        const catGif = document.getElementById("catGif");
+
+        function updateTimer() {
+            seconds++;
+            let hrs = String(Math.floor(seconds / 3600)).padStart(2,'0');
+            let mins = String(Math.floor((seconds % 3600) / 60)).padStart(2,'0');
+            let secs = String(seconds % 60).padStart(2,'0');
+            document.getElementById("timer").innerText = `${hrs}:${mins}:${secs}`;
+        }
+
+        function runCat() {
+            if (!running) {
+                running = true;
+                document.getElementById("status").innerText = "Cat running";
+                catGif.play().catch(err => console.log("Video play blocked:", err));
+                timerInterval = setInterval(updateTimer, 1000);
+            }
+        }
+
+        function stopCat() {
+            if (running) {
+                running = false;
+                document.getElementById("status").innerText = "Cat stopped";
+                catGif.pause();
+                clearInterval(timerInterval);
+            }
+        }
+
+        function speedUp() {
+            if (running) {
+                speedLevel++;
+                if (speedLevel > 3) speedLevel = 1;
+                catGif.playbackRate = speedLevel;
+                document.getElementById("status").innerText = "Speed x" + speedLevel;
+            }
+        }
+
+        function resetCat() {
+            running = false;
+            clearInterval(timerInterval);
+            seconds = 0;
+            document.getElementById("timer").innerText = "00:00:00";
+            document.getElementById("status").innerText = "Cat reset";
+            catGif.pause();
+            catGif.currentTime = 0;
+            speedLevel = 1;
+            catGif.playbackRate = 1;
+        }
+
+        // Polling Arduino ปุ่มทุก 0.5 วินาที
+        setInterval(() => {
+            fetch("/status")
+            .then(response => response.json())
+            .then(data => {
+                if (data.run) runCat();
+                if (data.stop) stopCat();
+                if (data.speed) speedUp();
+                if (data.reset) resetCat();
+            })
+            .catch(err => console.log("Fetch error:", err));
+        }, 500);
+    </script>
+</body>
+</html>
+)rawliteral";
+
+#endif
+
     </pre>
   </section>
 
