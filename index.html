@@ -3,29 +3,141 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>My Website</title>
+  <title>รายงานโครงงาน OIIA Spinner</title>
   <style>
-    body { font-family: Arial, sans-serif; margin: 40px; line-height: 1.6; }
-    pre { background: #f4f4f4; padding: 10px; border-radius: 5px; overflow-x: auto; }
-    h1 { color: #333; }
+    body {
+      font-family: "Sarabun", sans-serif;
+      background-color: #f8f9fa;
+      margin: 0;
+      padding: 0;
+      line-height: 1.7;
+      color: #333;
+    }
+    header {
+      background-color: #0078D7;
+      color: white;
+      padding: 20px;
+      text-align: center;
+    }
+    section {
+      max-width: 900px;
+      margin: 40px auto;
+      background: white;
+      padding: 30px;
+      border-radius: 10px;
+      box-shadow: 0 3px 10px rgba(0,0,0,0.1);
+    }
+    h2 {
+      color: #0078D7;
+      border-bottom: 2px solid #0078D7;
+      padding-bottom: 5px;
+    }
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 10px;
+    }
+    th, td {
+      border: 1px solid #ddd;
+      padding: 10px;
+      text-align: left;
+    }
+    th {
+      background-color: #e9ecef;
+    }
+    img {
+      margin: 10px 0;
+      border-radius: 10px;
+    }
+    footer {
+      text-align: center;
+      padding: 20px;
+      color: #555;
+      font-size: 14px;
+    }
   </style>
 </head>
 <body>
-  <h1>บทคัดย่อ (Abstract)</h1>
-  <p>
-    นี่คือตัวอย่างบทคัดย่อของโปรเจกต์เว็บไซต์ของฉัน…
-    สามารถใส่รายละเอียดได้ตามต้องการ เช่น วัตถุประสงค์ วิธีการ และผลลัพธ์
-  </p>
 
-  <h2>Source Code</h2>
-  <pre>
-&lt;!DOCTYPE html&gt;
-&lt;html&gt;
-&lt;head&gt;&lt;/head&gt;
-&lt;body&gt;
-  &lt;h1&gt;Hello World&lt;/h1&gt;
-&lt;/body&gt;
-&lt;/html&gt;
-  </pre>
+  <header>
+    <h1>รายงานโครงงาน OIIA Spinner</h1>
+    <p>ระบบควบคุมมอเตอร์ผ่าน Wi-Fi ด้วย Arduino UNO R4</p>
+  </header>
+
+  <section>
+    <h2>1. ความเป็นมาและจุดประสงค์</h2>
+    <p>
+      โครงงานนี้จัดทำขึ้นเพื่อสร้างอุปกรณ์ที่สามารถควบคุมมอเตอร์ผ่านเครือข่าย Wi-Fi ได้
+      โดยใช้บอร์ด Arduino UNO R4 WiFi เป็นตัวควบคุมหลัก และใช้หน้าเว็บในการสั่งงาน
+      จุดประสงค์คือเพื่อเรียนรู้การทำงานของ Web Server บนไมโครคอนโทรลเลอร์
+      และเข้าใจการเชื่อมต่อระหว่างฮาร์ดแวร์กับอินเทอร์เฟซบนเว็บ
+    </p>
+  </section>
+
+  <section>
+    <h2>2. วิธีดำเนินงาน</h2>
+    <ul>
+      <li>ศึกษาโค้ดและตัวอย่างการเชื่อมต่อ Wi-Fi ด้วยบอร์ด Arduino</li>
+      <li>ออกแบบหน้าเว็บควบคุมมอเตอร์ (HTML, CSS, JavaScript)</li>
+      <li>เขียนโค้ด Arduino เพื่อรับคำสั่งจากหน้าเว็บ</li>
+      <li>เชื่อมต่อและทดสอบการควบคุมจริง</li>
+      <li>ปรับปรุงระบบแสดงสถานะและเพิ่มฟังก์ชัน Reset</li>
+    </ul>
+  </section>
+
+  <section>
+    <h2>3. สิ่งที่ได้ลองทำและผลการทดสอบ</h2>
+    <p>
+      - สามารถควบคุมการหมุนของมอเตอร์ผ่านหน้าเว็บได้จริง<br>
+      - ปุ่ม Start, Stop และ Speed ทำงานได้ตามที่ออกแบบ<br>
+      - หน้าเว็บแสดงสถานะการทำงานแบบเรียลไทม์<br>
+      - มีการทดสอบทั้งบนคอมพิวเตอร์และมือถือ<br>
+    </p>
+    <img src="test.jpg" width="300" alt="ภาพการทดสอบระบบ">
+  </section>
+
+  <section>
+    <h2>4. อุปสรรคและการแก้ไข</h2>
+    <ul>
+      <li>หน้าเว็บไม่แสดงผล — ตรวจสอบโค้ด HTML และเพิ่ม <code>server.begin()</code></li>
+      <li>ปุ่มไม่ตอบสนอง — ตรวจสอบ <code>pinMode()</code> และ debounce ของปุ่ม</li>
+      <li>เชื่อมต่อ Wi-Fi ไม่ได้ — ตรวจสอบ SSID/Password และระยะสัญญาณ</li>
+    </ul>
+  </section>
+
+  <section>
+    <h2>5. ผลลัพธ์และสิ่งที่ยังทำไม่ได้</h2>
+    <p>
+      ผลลัพธ์ที่ได้คือสามารถควบคุมมอเตอร์ผ่าน Wi-Fi ได้ตามต้องการ
+      แต่ระบบยังไม่สามารถเชื่อมต่อจากอินเทอร์เน็ตภายนอกได้ (จำกัดในวง LAN)
+      และยังไม่มีระบบล็อกอินหรือจำกัดสิทธิ์การใช้งาน
+    </p>
+  </section>
+
+  <section>
+    <h2>6. บทบาทของสมาชิกในโครงงาน</h2>
+    <table>
+      <tr><th>ชื่อสมาชิก</th><th>หน้าที่ / สิ่งที่รับผิดชอบ</th></tr>
+      <tr><td>นายธีรัช</td><td>เขียนโค้ด Arduino และตั้งค่า Wi-Fi Server</td></tr>
+      <tr><td>นางสาวศิรภัสสร</td><td>ออกแบบหน้าเว็บและตกแต่ง UI</td></tr>
+      <tr><td>นายอภิสิทธิ์</td><td>ทดสอบระบบและแก้ไขปัญหาการเชื่อมต่อ</td></tr>
+      <tr><td>นางสาวปิยนุช</td><td>จัดทำรายงานและสรุปผลโครงงาน</td></tr>
+    </table>
+  </section>
+
+  <section>
+    <h2>7. สรุปผลและแนวทางพัฒนา</h2>
+    <p>
+      โครงงานนี้สามารถทำงานได้ตรงตามเป้าหมาย คือควบคุมมอเตอร์ผ่าน Wi-Fi ได้จริง
+      ในอนาคตสามารถพัฒนาต่อโดยเพิ่มระบบควบคุมผ่านอินเทอร์เน็ต (IoT),
+      เพิ่มการแสดงผลสถานะด้วยกราฟ หรือสร้างแอปพลิเคชันสำหรับมือถือ
+    </p>
+  </section>
+
+  <footer>
+    จัดทำโดย นักเรียนชั้นมัธยมศึกษาปีที่ 6/3 โรงเรียนตัวอย่าง<br>
+    © 2025 OIIA Spinner Project
+  </footer>
+
 </body>
 </html>
